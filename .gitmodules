@@ -1,0 +1,3 @@
+[submodule "nginx-node-redis"]
+	path = nginx-node-redis
+	url = https://github.com/dockersamples/nginx-node-redis
