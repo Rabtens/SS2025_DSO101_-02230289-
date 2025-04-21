@@ -1,0 +1,18 @@
+{
+    "name": "sample-docker-app",
+    "version": "1.0.0",
+    "description": "Sample Node.js application for Docker deployment",
+    "main": "src/app.js",
+    "scripts": {
+      "start": "node src/app.js",
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+      "docker",
+      "github-actions",
+      "node"
+    ],
+    "author": "Your Name",
+    "license": "MIT",
+    "dependencies": {}
+  }
