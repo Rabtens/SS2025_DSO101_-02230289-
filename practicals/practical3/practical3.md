@@ -1,134 +1,99 @@
-# Docker Image Publishing with GitHub Actions
+### Lab Report
 
-This repository demonstrates how to automatically build and publish Docker images to both Docker Hub and GitHub Packages using GitHub Actions.
+# Docker Containerization Lab Report
 
-## Features
+## Lab Topic: Docker Containerization for Portfolio Website
 
-- Automatic Docker image building and publishing
-- Multi-registry support (Docker Hub and GitHub Packages)
-- Triggered on new releases or manually
-- Includes supply chain security with build attestation
-- Proper image tagging based on semantic versioning
+### Objective
+The objective of this lab is to containerize a portfolio website using Docker, push the image to Docker Hub, and deploy it using Render.com. The lab demonstrates basic containerization techniques and deployment workflows.
 
-## Prerequisites
+### Tools & Technologies Used
+- Docker
+- Nginx
+- GitHub
+- Render.com
+- HTML/CSS
 
-- GitHub account
-- Docker Hub account
-- Repository on Docker Hub (must be created before running workflow)
+## Steps Performed in Docker Containerization
 
-## Setup Instructions
+### Part 1: Create and Push a Pre-built Docker Image
 
-### 1. Docker Hub Setup
+#### Step 1: Prepare the Application
+For this practical, I used my personal portfolio website consisting of:
+- `index.html`
+- `style.css`
+- Various images and assets
 
-1. Create a repository on Docker Hub:
-   - Go to Docker Hub
-   - Sign in with your account
-   - Click "Create Repository"
-   - Enter repository name and set visibility
-   - Click "Create"
+#### Step 2: Create a Dockerfile
+Define a `Dockerfile` in the root directory:
 
-### 2. GitHub Repository Setup
+```dockerfile
+# Use official Nginx base image
+FROM nginx:alpine
 
-1. Configure GitHub repository secrets:
-   - Go to your repository's Settings > Secrets and variables > Actions
-   - Add two secrets:
-     - `DOCKER_USERNAME`: Your Docker Hub username
-     - `DOCKER_PASSWORD`: Your Docker Hub password or access token (recommended)
+# Copy portfolio files into the default Nginx public directory
+COPY . /usr/share/nginx/html
 
-### 3. Workflow Configuration
-
-This repository includes a GitHub Actions workflow file (`.github/workflows/docker-publish.yml`) that handles the building and publishing of Docker images.
-
-The workflow:
-- Triggers on new releases or manual dispatch
-- Builds the Docker image from the Dockerfile
-- Tags the image appropriately
-- Pushes the image to both Docker Hub and GitHub Packages
-- Generates attestation for supply chain security
-
-## Using the Workflow
-
-### Triggering Builds
-
-There are two ways to trigger the workflow:
-
-1. **Create a GitHub Release**:
-   - Go to the Releases section of your repository
-   - Click "Create a new release"
-   - Set a tag (e.g., `v1.0.0`)
-   - Publish the release
-
-2. **Manual Trigger**:
-   - Go to the Actions tab of your repository
-   - Select the "Publish Docker image" workflow
-   - Click "Run workflow"
-
-### Verifying Published Images
-
-#### Docker Hub
-1. Go to Docker Hub
-2. Navigate to your repository
-3. Check that your image is published with the expected tags
-
-#### GitHub Packages
-1. Go to your GitHub repository
-2. Click on "Packages" in the sidebar or navigation
-3. Find your package and verify the tags
-
-## Using the Docker Image
-
-### Pull from Docker Hub
-
-```bash
-docker pull your-dockerhub-username/your-repository-name:tag
+# Expose port 80
+EXPOSE 80
 ```
 
-### Pull from GitHub Packages
+#### Step 3: Build the Docker Image
+Construct the Docker image using the following command:
 
-```bash
-docker pull ghcr.io/your-github-username/your-repository-name:tag
+```sh
+docker build -t rabtens/port .
 ```
 
-### Run the Container
+![alt text](<../practical3/Screenshot from 2025-04-24 15-40-16.png>)
 
-```bash
-docker run -p local-port:container-port your-dockerhub-username/your-repository-name:tag
+#### Step 4: Test the Docker Image Locally
+Start a container with port forwarding:
+
+```sh
+docker run -d -p 8001:80 rabtens/port
+```
+![alt text](<../practical3/Screenshot from 2025-04-24 15-52-07.png>)
+
+#### Step 5: Push Image to Docker Hub
+Push the image to Docker Hub repository:
+
+```sh
+docker login
+docker push rabtens/port
 ```
 
-## Customization
+![alt text](<../practical3/Screenshot from 2025-04-24 15-56-52.png>)
 
-### Dockerfile
+### Part 2: Dockerfile + GitHub + Render Deployment
 
-Modify the `Dockerfile` to suit your application needs. The current setup is for a basic application, but you should adjust it for your specific requirements.
+#### Step 1: GitHub Setup
+- The same application was committed and pushed to a public GitHub repository
+- The Dockerfile was placed in the root directory
 
-### Workflow
+![alt text](<../practical3/Screenshot from 2025-04-24 16-01-45.png>)
 
-You can customize the GitHub Actions workflow by editing `.github/workflows/docker-publish.yml`:
-- Change the trigger events
-- Modify build arguments
-- Add additional steps like testing or scanning
-- Configure multi-platform builds
+#### Step 2: Deploy to Render
+- Created a new web service on Render.com
+- Selected Docker as deployment method
+- Connected to GitHub repo
+- Set the Dockerfile path as Dockerfile
+- Render automatically built and deployed the container
 
-## Troubleshooting
+Successful deployment to Render. We can now view the image locally using the port `localhost:8001`
 
-### Common Issues
+![alt text](<../practical3/Screenshot from 2025-04-24 15-58-53.png>)
 
-1. **Authentication Failures**:
-   - Verify your Docker Hub credentials are correct
-   - Ensure your Docker Hub token has appropriate permissions
+## Conclusion
+This Docker practical exercise provided hands-on experience in containerizing a web application and deploying it using different platforms. By creating a Dockerfile for a simple portfolio website and building a Docker image, I learned the fundamental steps of containerization. Testing the image locally ensured that the application worked as expected before pushing it to Docker Hub for public access.
 
-2. **Build Failures**:
-   - Check your Dockerfile for errors
-   - Make sure all dependencies are available
+The second part of the practical demonstrated the integration of Docker with GitHub and Render.com. By connecting a GitHub repository containing the Dockerfile to Render, the deployment process became automated.
 
-3. **Push Failures**:
-   - Confirm your Docker Hub repository exists before pushing
-   - Verify GitHub workflow has correct permissions
+## References
+- Docker Documentation
+- Nginx Documentation
+- Render.com Documentation
 
-## Contributing
+*Author: [Kuenzang Rabten]*
 
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
+*Date: April 24, 2025*
