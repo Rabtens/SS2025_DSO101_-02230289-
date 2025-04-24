@@ -1,18 +1,12 @@
-# Use an appropriate base image for your application
-FROM node:16-alpine
+FROM python:3.10-alpine
 
-# Set working directory
 WORKDIR /app
 
-# Copy package files and install dependencies
-COPY package*.json ./
-RUN npm install
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy source code
 COPY . .
 
-# Expose port (if applicable)
-EXPOSE 3000
+EXPOSE 5000
 
-# Command to run the application
-CMD ["npm", "start"]
+CMD ["python", "app.py"]
