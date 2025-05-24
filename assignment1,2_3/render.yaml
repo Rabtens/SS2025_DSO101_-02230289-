@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: be-todo
+    env: docker
+    dockerfilePath: ./backend/Dockerfile
+    envFromFile: ./backend/.env.production
+    plan: free
+    autoDeploy: true
+    
+  - type: web
+    name: fe-todo
+    env: docker
+    dockerfilePath: ./frontend/Dockerfile
+    envFromFile: ./frontend/.env.production
+    plan: free
+    autoDeploy: true
