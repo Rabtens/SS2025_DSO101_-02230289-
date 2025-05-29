@@ -159,7 +159,6 @@ stage('Test') {
   }
 }
 ```
-
 Note: This uses the jest-junit reporter and ensures that test results are always published after the test stage runs.
 
 ## Output and Screenshots
